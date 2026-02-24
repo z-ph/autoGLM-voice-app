@@ -65,33 +65,20 @@ jobs:
   release:
     needs: build
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/v')
     
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Set up JDK ${{ env.JDK_VERSION }}
-      uses: actions/setup-java@v4
+    - name: Download Debug APK
+      uses: actions/download-artifact@v4
       with:
-        java-version: '${{ env.JDK_VERSION }}'
-        distribution: 'temurin'
-
-    - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@v3
-      with:
-        gradle-version: '8.2'
-
-    - name: Build Release APK
-      run: |
-        gradle wrapper --gradle-version 8.2
-        chmod +x gradlew
-        ./gradlew assembleRelease --no-daemon --stacktrace
+        name: app-debug
+        path: ./artifacts
 
     - name: Create Release
       uses: softprops/action-gh-release@v1
       with:
-        files: app/build/outputs/apk/release/app-release-unsigned.apk
+        files: |
+          ./artifacts/app-debug.apk
         generate_release_notes: true
+        tag_name: ${{ github.sha }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
