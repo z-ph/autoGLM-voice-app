@@ -22,33 +22,36 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-        cache: gradle
 
     - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@v3
+      uses: gradle/gradle-build-action@v3
 
-    - name: Build with Gradle
-      run: gradle build --no-daemon
+    - name: Create local.properties
+      run: echo "sdk.dir=/usr/local/lib/android/sdk" > local.properties
 
     - name: Build Debug APK
-      run: gradle assembleDebug --no-daemon
-
-    - name: Build Release APK
-      run: gradle assembleRelease --no-daemon
+      run: |
+        gradle wrapper
+        chmod +x gradlew
+        ./gradlew assembleDebug --no-daemon
 
     - name: Upload Debug APK
       uses: actions/upload-artifact@v4
       with:
         name: app-debug
         path: app/build/outputs/apk/debug/app-debug.apk
-        retention-days: 30
+        retention-days: 14
+
+    - name: Build Release APK
+      run: |
+        ./gradlew assembleRelease --no-daemon
 
     - name: Upload Release APK
       uses: actions/upload-artifact@v4
       with:
-        name: app-release
+        name: app-release-unsigned
         path: app/build/outputs/apk/release/app-release-unsigned.apk
-        retention-days: 30
+        retention-days: 14
 
   release:
     needs: build
@@ -64,10 +67,12 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-        cache: gradle
 
     - name: Build Release APK
-      run: gradle assembleRelease --no-daemon
+      run: |
+        gradle wrapper
+        chmod +x gradlew
+        ./gradlew assembleRelease --no-daemon
 
     - name: Create Release
       uses: softprops/action-gh-release@v1
