@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 env:
-  GRADLE_VERSION: '8.0'
+  GRADLE_VERSION: '8.2'
   JDK_VERSION: '17'
 
 jobs:
@@ -30,14 +30,14 @@ jobs:
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v3
       with:
-        gradle-version: '8.0'
+        gradle-version: '8.2'
 
     - name: Create local.properties
       run: echo "sdk.dir=/usr/local/lib/android/sdk" > local.properties
 
     - name: Build Debug APK
       run: |
-        gradle wrapper --gradle-version 8.0
+        gradle wrapper --gradle-version 8.2
         chmod +x gradlew
         ./gradlew assembleDebug --no-daemon --stacktrace
 
@@ -77,11 +77,11 @@ jobs:
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v3
       with:
-        gradle-version: '8.0'
+        gradle-version: '8.2'
 
     - name: Build Release APK
       run: |
-        gradle wrapper --gradle-version 8.0
+        gradle wrapper --gradle-version 8.2
         chmod +x gradlew
         ./gradlew assembleRelease --no-daemon --stacktrace
 
