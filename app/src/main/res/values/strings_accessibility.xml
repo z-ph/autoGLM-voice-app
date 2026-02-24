@@ -1,0 +1,3 @@
+<resources>
+    <string name="accessibility_service_description">AutoGLM 语音助手使用无障碍服务来执行屏幕点击、滑动和输入操作。此服务仅在语音控制时使用，不会收集任何个人信息。</string>
+</resources>
