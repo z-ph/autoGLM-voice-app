@@ -3,6 +3,7 @@ package com.autoglm.voice
 import android.app.*
 import android.content.Intent
 import android.os.Build
+import android.os.Bundle
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
@@ -94,10 +95,9 @@ class VoiceService : Service() {
     private fun createFloatingButton() {
         windowManager = getSystemService(WINDOW_SERVICE) as WindowManager
         
-        val params = FrameLayout.LayoutParams(
-            WindowManager.LayoutParams.WRAP_CONTENT,
-            WindowManager.LayoutParams.WRAP_CONTENT
-        ).apply {
+        val params = WindowManager.LayoutParams().apply {
+            width = WindowManager.LayoutParams.WRAP_CONTENT
+            height = WindowManager.LayoutParams.WRAP_CONTENT
             type = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
             } else {
@@ -106,8 +106,6 @@ class VoiceService : Service() {
             flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or
                     WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
             gravity = Gravity.END or Gravity.CENTER_VERTICAL
-            width = 180
-            height = 180
         }
         
         floatingView = LayoutInflater.from(this).inflate(R.layout.floating_button, null)
@@ -276,7 +274,7 @@ class VoiceService : Service() {
     private fun executeCommand(cmd: JSONObject) {
         val service = AutoGLMAccessibilityService.instance ?: return
         
-        val type = cmd.optString("type") or cmd.optString("action", "")
+        val type = cmd.optString("type").ifEmpty { cmd.optString("action", "") }
         
         when (type) {
             "click" -> {
@@ -301,7 +299,7 @@ class VoiceService : Service() {
             "back" -> service.performBack()
             "home" -> service.performHome()
             "open_app", "launch" -> {
-                val appName = cmd.optString("app_name") or cmd.optString("app", "")
+                val appName = cmd.optString("app_name").ifEmpty { cmd.optString("app", "") }
                 // 需要转换为包名
             }
         }
