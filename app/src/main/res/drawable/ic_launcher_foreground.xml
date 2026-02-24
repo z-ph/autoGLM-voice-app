@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- 麦克风图标 - 代表语音助手 -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,36c-6.6,0 -12,5.4 -12,12v12c0,6.6 5.4,12 12,12s12,-5.4 12,-12V48C66,41.4 60.6,36 54,36zM54,66c-3.3,0 -6,-2.7 -6,-6V48c0,-3.3 2.7,-6 6,-6s6,2.7 6,6v12C60,63.3 57.3,66 54,66zM78,48c0,-13.3 -10.7,-24 -24,-24S30,34.7 30,48v6c0,8.8 5.9,16.5 14.5,19.1V84H42v6h24v-6h-2.5V73.1C72.1,70.5 78,62.8 78,54V48zM72,54c0,9.9 -8.1,18 -18,18S36,63.9 36,54V48c0,-9.9 8.1,-18 18,-18s18,8.1 18,18V54z"/>
+</vector>
