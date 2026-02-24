@@ -17,7 +17,10 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.Toast
 import okhttp3.*
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
+import java.io.IOException
 import java.util.*
 
 /**
@@ -218,10 +221,8 @@ class VoiceService : Service() {
             put("device_type", "android")
         }
         
-        val body = RequestBody.create(
-            okhttp3.MediaType.parse("application/json; charset=utf-8"),
-            json.toString()
-        )
+        val mediaType = "application/json; charset=utf-8".toMediaType()
+        val body = RequestBody.create(mediaType, json.toString())
         
         val request = Request.Builder()
             .url("https://open.bigmodel.cn/api/paas/v4/autoglm")
