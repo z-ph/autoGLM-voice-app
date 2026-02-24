@@ -8,6 +8,10 @@ on:
   pull_request:
     branches: [ "main" ]
 
+permissions:
+  contents: write
+  packages: write
+
 env:
   GRADLE_VERSION: '8.2'
   JDK_VERSION: '17'
